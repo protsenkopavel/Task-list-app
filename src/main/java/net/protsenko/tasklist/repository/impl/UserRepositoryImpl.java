@@ -7,7 +7,6 @@ import net.protsenko.tasklist.domain.user.User;
 import net.protsenko.tasklist.repository.UserRepository;
 import net.protsenko.tasklist.repository.mappers.UserRowMapper;
 import net.protsenko.tasklist.service.DataSourceConfig;
-import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,7 +14,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Optional;
 
-@Repository
+//@Repository
 @RequiredArgsConstructor
 public class UserRepositoryImpl implements UserRepository {
 
@@ -116,7 +115,7 @@ public class UserRepositoryImpl implements UserRepository {
             Connection connection = dataSourceConfig.getConnection();
             PreparedStatement statement = connection.prepareStatement(UPDATE);
             statement.setString(1, user.getName());
-            statement.setString(2, user.getUserName());
+            statement.setString(2, user.getUsername());
             statement.setString(3, user.getPassword());
             statement.setLong(4, user.getId());
             statement.executeUpdate();
@@ -131,7 +130,7 @@ public class UserRepositoryImpl implements UserRepository {
             Connection connection = dataSourceConfig.getConnection();
             PreparedStatement statement = connection.prepareStatement(CREATE, PreparedStatement.RETURN_GENERATED_KEYS);
             statement.setString(1, user.getName());
-            statement.setString(2, user.getUserName());
+            statement.setString(2, user.getUsername());
             statement.setString(3, user.getPassword());
             statement.executeUpdate();
 

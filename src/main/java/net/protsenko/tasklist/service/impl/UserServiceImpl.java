@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public User create(User user) {
-        if (userRepository.findByUsername(user.getUserName()).isPresent()) {
+        if (userRepository.findByUsername(user.getUsername()).isPresent()) {
             throw new IllegalStateException("User already exists.");
         }
         if (!user.getPassword().equals(user.getPasswordConfirmation())) {

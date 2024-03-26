@@ -5,7 +5,6 @@ import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import net.protsenko.tasklist.domain.exception.AccessDeniedException;
 import net.protsenko.tasklist.domain.user.Role;
@@ -17,7 +16,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
@@ -86,9 +84,9 @@ public class JwtTokenProvider {
         User user = userService.getById(userId);
 
         jwtResponse.setId(userId);
-        jwtResponse.setUsername(user.getUserName());
-        jwtResponse.setAccessToken(createAccessToken(userId, user.getUserName(), user.getRoles()));
-        jwtResponse.setRefreshToken(createRefreshToken(userId, user.getUserName()));
+        jwtResponse.setUsername(user.getUsername());
+        jwtResponse.setAccessToken(createAccessToken(userId, user.getUsername(), user.getRoles()));
+        jwtResponse.setRefreshToken(createRefreshToken(userId, user.getUsername()));
         return jwtResponse;
     }
 

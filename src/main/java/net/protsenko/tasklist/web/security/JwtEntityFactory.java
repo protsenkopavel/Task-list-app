@@ -14,7 +14,7 @@ public class JwtEntityFactory {
     public static JwtEntity create(User user) {
         return new JwtEntity(
                 user.getId(),
-                user.getUserName(),
+                user.getUsername(),
                 user.getName(),
                 user.getPassword(),
                 mapToGrantedAuthorities(new ArrayList<>(user.getRoles()))
