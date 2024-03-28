@@ -3,14 +3,22 @@ package net.protsenko.tasklist.web.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import net.protsenko.tasklist.domain.exception.ExceptionBody;
+import net.protsenko.tasklist.domain.exception.ImageUploadException;
 import net.protsenko.tasklist.domain.task.Task;
+import net.protsenko.tasklist.domain.task.TaskImage;
 import net.protsenko.tasklist.service.TaskService;
 import net.protsenko.tasklist.web.dto.task.TaskDto;
+import net.protsenko.tasklist.web.dto.task.TaskImageDto;
 import net.protsenko.tasklist.web.dto.validation.OnUpdate;
+import net.protsenko.tasklist.web.mappers.TaskImageMapper;
 import net.protsenko.tasklist.web.mappers.TaskMapper;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.awt.image.ImagingOpException;
 
 @RestController
 @RequestMapping("/api/v1/tasks")
@@ -22,6 +30,7 @@ public class TaskController {
     private final TaskService taskService;
 
     private final TaskMapper taskMapper;
+    private final TaskImageMapper taskImageMapper;
 
     @PutMapping
     @Operation(summary = "Update task")
@@ -47,6 +56,21 @@ public class TaskController {
     @PreAuthorize("canAccessTask(#id)")
     public void deleteById(@PathVariable Long id) {
         taskService.delete(id);
+    }
+
+    @ExceptionHandler(ImagingOpException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ExceptionBody handleImageUpload(ImageUploadException e) {
+        return new ExceptionBody(e.getMessage());
+    }
+
+    @PostMapping("/{id}/image")
+    @Operation(summary = "Upload image to task")
+    @PreAuthorize("canAccessTask(#id)")
+    public void uploadImage(@PathVariable Long id,
+                            @Validated @ModelAttribute TaskImageDto imageDto) {
+        TaskImage image = taskImageMapper.toEntity(imageDto);
+        taskService.uploadImage(id, image);
     }
 
 }
