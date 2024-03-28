@@ -4,14 +4,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
-import net.protsenko.tasklist.domain.task.Task;
-import net.protsenko.tasklist.domain.user.Role;
 import net.protsenko.tasklist.web.dto.validation.OnCreate;
 import net.protsenko.tasklist.web.dto.validation.OnUpdate;
 import org.hibernate.validator.constraints.Length;
-
-import java.util.List;
-import java.util.Set;
 
 @Data
 @Schema(description = "User DTO")

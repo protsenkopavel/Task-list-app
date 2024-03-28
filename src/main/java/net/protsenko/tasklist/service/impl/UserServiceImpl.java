@@ -70,7 +70,7 @@ public class UserServiceImpl implements UserService {
         user.setRoles(roles);
         userRepository.save(user);
         return user;
-     }
+    }
 
     @Override
     @Transactional(readOnly = true)

@@ -2,7 +2,6 @@ package net.protsenko.tasklist.domain.user;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.Generated;
 import net.protsenko.tasklist.domain.task.Task;
 
 import java.io.Serializable;
