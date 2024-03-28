@@ -7,7 +7,6 @@ import net.protsenko.tasklist.domain.task.Task;
 import net.protsenko.tasklist.domain.task.TaskImage;
 import net.protsenko.tasklist.domain.user.User;
 import net.protsenko.tasklist.repository.TaskRepository;
-import net.protsenko.tasklist.repository.UserRepository;
 import net.protsenko.tasklist.service.ImageService;
 import net.protsenko.tasklist.service.TaskService;
 import net.protsenko.tasklist.service.UserService;

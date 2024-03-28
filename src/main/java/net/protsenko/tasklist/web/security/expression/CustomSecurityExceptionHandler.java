@@ -1,6 +1,5 @@
 package net.protsenko.tasklist.web.security.expression;
 
-import net.protsenko.tasklist.config.ApplicationConfig;
 import net.protsenko.tasklist.service.UserService;
 import org.aopalliance.intercept.MethodInvocation;
 import org.springframework.context.ApplicationContext;

@@ -9,7 +9,6 @@ import lombok.SneakyThrows;
 import net.protsenko.tasklist.domain.exception.ImageUploadException;
 import net.protsenko.tasklist.domain.task.TaskImage;
 import net.protsenko.tasklist.service.ImageService;
-import net.protsenko.tasklist.service.TaskService;
 import net.protsenko.tasklist.service.props.MinioProperties;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
