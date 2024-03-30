@@ -1,10 +1,12 @@
 package net.protsenko.tasklist.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import net.protsenko.tasklist.domain.MailType;
 import net.protsenko.tasklist.domain.exception.ResourceNotFoundException;
 import net.protsenko.tasklist.domain.user.Role;
 import net.protsenko.tasklist.domain.user.User;
 import net.protsenko.tasklist.repository.UserRepository;
+import net.protsenko.tasklist.service.MailService;
 import net.protsenko.tasklist.service.UserService;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
@@ -14,6 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Properties;
 import java.util.Set;
 
 @Service
@@ -23,6 +26,8 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
 
     private final PasswordEncoder passwordEncoder;
+
+    private final MailService mailService;
 
     @Override
 //    @Transactional(readOnly = true)
@@ -69,6 +74,7 @@ public class UserServiceImpl implements UserService {
         Set<Role> roles = Set.of(Role.ROLE_USER);
         user.setRoles(roles);
         userRepository.save(user);
+        mailService.sendMail(user, MailType.REGISTRATION, new Properties());
         return user;
     }
 
@@ -77,6 +83,14 @@ public class UserServiceImpl implements UserService {
     @Cacheable(value = "UserService::isTaskOwner", key = "#userId + '.' + #taskId")
     public boolean isTaskOwner(Long userId, Long taskId) {
         return userRepository.isTaskOwner(userId, taskId);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    @Cacheable(value = "UserService::getTaskAuthor", key = "#taskId")
+    public User getTaskAuthor(Long taskId) {
+        return userRepository.findTaskAuthor(taskId)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
     }
 
     @Override
