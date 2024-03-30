@@ -57,6 +57,7 @@ public class TaskServiceImpl implements TaskService {
     public Task create(Task task, Long userId) {
         User user = userService.getById(userId);
         task.setStatus(Status.TODO);
+        taskRepository.save(task);
         user.getTasks().add(task);
         userService.update(user);
         return task;
